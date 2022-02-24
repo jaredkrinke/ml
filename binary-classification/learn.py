@@ -40,6 +40,7 @@ def find_best(data, labels, ths, th0s):
 # print([x.tolist() for x in find_best(data,labels, ths, th0s)])
 
 ## Real data (CSV: param 1,2,...,4, label)
+# TODO: Split into training and test data sets
 positive = 1
 negative = -1
 
