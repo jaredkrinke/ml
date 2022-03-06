@@ -17,3 +17,18 @@ def margin_sum(data, labels, theta, theta_0):
 
 print(margin_sum(data, labels, red_th, red_th0))
 print(margin_sum(data, labels, blue_th, blue_th0))
+
+# More
+data = np.array([[1.1, 1, 4],[3.1, 1, 2]])
+labels = np.array([[1, -1, -1]])
+th = np.array([[1, 1]]).T
+th0 = -4
+
+def hinge_loss(gamma, gamma_ref):
+    if gamma < gamma_ref:
+        return 1 - gamma / gamma_ref
+    else:
+        return 0
+
+for x in margin(data, labels, th, th0)[0]:
+    print(hinge_loss(x, 2**0.5/2))
