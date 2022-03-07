@@ -1,4 +1,5 @@
 import numpy as np
+import binary_classification
 
 # Fixed random seed
 seed = 12345
@@ -9,15 +10,27 @@ positive = 1
 negative = -1
 
 # Real data (CSV: param 1,2,...,4, label=0|1)
-raw = np.loadtxt("data_banknote_authentication.txt", delimiter=",")
-data = raw[:,:-1].T
+samples =  np.genfromtxt("data_banknote_authentication.txt", delimiter=",", skip_header=True)
 
-print(data)
+# Shuffle and normalize negative labels to -1 instead of 0
+rng.shuffle(samples)
+data_all = samples[:,:-1].T
+labels_all = np.where(samples[:,-1:] == 0, negative, samples[:,-1:]).T
 
-# # Switch negative labels from 0 to -1
-# labels = raw[:,-1:].T
-# labels = np.where(labels == 0, negative, labels)
+# Split data (roughly) 50-50
+[data_training, data_test] = np.array_split(data_all, 2, axis=1)
+[labels_training, labels_test] = np.array_split(labels_all, 2, axis=1)
 
-# # Split into training and test data (50-50)
-# sample_count = np.shapre(data)[1]
-# training_data, test_data = np.split(data, )
+# Trivial model
+def train_trivial(_data, _labels):
+    return [.1, .2, .3, .4], .5
+
+# Compare
+print("ETrain\tETest\tECross\tStrategy")
+for model in [train_trivial]:
+    normal, offset = model(data_training, labels_training)
+    error_training = binary_classification.objective_accuracy(data_training, labels_training, normal, offset)
+    error_test = binary_classification.objective_accuracy(data_test, labels_test, normal, offset)
+    print("{0:1.4f}\t{1:1.4f}\t{2:1.4f}\t{3}".format(error_training, error_test, 1, model.__name__))
+
+# TODO: Cross-fold validation
