@@ -23,14 +23,18 @@ labels_all = np.where(samples[:,-1:] == 0, negative, samples[:,-1:]).T
 
 # Trivial model
 def train_trivial(_data, _labels):
-    return [.1, .2, .3, .4], .5
+    return np.array([[.1], [.2], [.3], [.4]]), np.array([[.5]])
 
 # Compare
+def format_model(normal, offset):
+    def format_float(f): return "{0:1.3f}".format(f)
+    return ", ".join(map(format_float, normal.reshape([-1]))) + "; " + format_float(offset[0,0])
+
 print("ETrain\tETest\tECross\tStrategy")
-for model in [train_trivial, lib.train_random]:
+for model in [train_trivial, lib.train_random, lib.train_perceptron]:
     normal, offset = model(data_training, labels_training)
     error_training = lib.score_accuracy(data_training, labels_training, normal, offset)
     error_test = lib.score_accuracy(data_test, labels_test, normal, offset)
-    print("{0:1.4f}\t{1:1.4f}\t{2:1.4f}\t{3}".format(error_training, error_test, 1, model.__name__))
+    print("{0:1.4f}\t{1:1.4f}\t{2:1.4f}\t{3}:\t{4}".format(error_training, error_test, 1, model.__name__, format_model(normal, offset)))
 
 # TODO: Cross-fold validation
