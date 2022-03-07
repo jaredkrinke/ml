@@ -5,11 +5,6 @@ def classify_binary(data, normal, offset):
     return np.sign(((data.T @ normal) + offset))
 
 # Objective functions
-def objective_zero_one(data, labels, normal, offset):
-    return np.sum(classify_binary(data, normal, offset) != labels, axis=1)[0]
-
-def objective_accuracy(data, labels, normal, offset):
-    return np.mean(classify_binary(data, normal, offset) != labels, axis=1)[0]
 
 def objective_negative_log_likelihood(data, labels, normal, offset):
     pass
@@ -17,10 +12,23 @@ def objective_negative_log_likelihood(data, labels, normal, offset):
 def objective_support_vector_machine(data, lables, normal, offset):
     pass
 
+# Scoring
+def score_correct(data, labels, normal, offset):
+    predicted = classify_binary(data, normal, offset)
+    return np.sum(predicted.T == labels, axis=1, keepdims=True)
+
+def score_accuracy(data, labels, normal, offset):
+    return np.mean(classify_binary(data, normal, offset) == labels, axis=1)[0]
+
 # Learning algorithms for linear classifiers
 def train_random(data, labels, iterations=1000, seed=12345):
-    (d, n) = data.shape
-    pass
+    # TODO: NumPy-ify the loop?
+    dimensions = data.shape[0]
+    rng = np.random.default_rng(seed)
+    normals = rng.uniform(-1, 1, size=(dimensions, iterations))
+    offsets = rng.uniform(-1, 1, size=(1, iterations))
+    index_best = np.argmax(score_correct(data, labels, normals, offsets))
+    return normals[:,index_best], offsets[:,index_best]
 
 def train_perceptron(data, labels, iterations=100):
     pass
