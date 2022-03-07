@@ -39,7 +39,7 @@ def train_random(data, labels, iterations=1000, seed=12345):
     index_best = np.argmax(score_correct(data, labels, normals, offsets))
     return normals[:,index_best].reshape([-1, 1]), offsets[:,index_best].reshape([1, 1])
 
-def train_perceptron(data, labels, passes=50):
+def train_perceptron(data, labels, passes=10):
     dimensions, samples = data.shape
     normal = np.zeros([dimensions, 1])
     offset = np.zeros([1, 1])
