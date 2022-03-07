@@ -28,7 +28,7 @@ def score_correct(data, labels, normal, offset):
     return np.sum(predicted.T == labels, axis=1, keepdims=True)
 
 def score_accuracy(data, labels, normal, offset):
-    return np.mean(classify_binary(data, normal, offset) == labels, axis=1)[0]
+    return np.mean(classify_binary(data, normal, offset).T == labels)
 
 # Learning algorithms for linear classifiers
 def train_random(data, labels, iterations=1000, seed=12345):
