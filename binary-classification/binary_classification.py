@@ -62,7 +62,7 @@ def descend_gradient(df, x0, step_size_fn, max_iter):
         x -= df(x) * step_size_fn(i)
     return x
 
-def train_gradient_descent(data, labels, gradient_objective, regularizer_coefficient=0.01):
+def train_gradient_descent(data, labels, gradient_objective, regularizer_coefficient=0.01, steps=100):
     normal = np.zeros([data.shape[0], 1])
     offset = 0
     x0 = np.vstack((normal, [[offset]]))
@@ -73,7 +73,7 @@ def train_gradient_descent(data, labels, gradient_objective, regularizer_coeffic
     def df(x): return gradient_objective(data, labels, extract_normal(x), extract_offset(x), regularizer_coefficient)
     def svm_min_step_size_fn(i): return 2/(i+1)**0.5
     
-    x = descend_gradient(df, x0, svm_min_step_size_fn, 50)
+    x = descend_gradient(df, x0, svm_min_step_size_fn, steps)
     return extract_normal(x), extract_offset(x)
 
 def train_support_vector_machine(data, labels, regularizer_coefficient=0.01):

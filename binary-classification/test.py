@@ -17,10 +17,6 @@ rng.shuffle(samples)
 data = samples[:,:-1].T
 labels = np.where(samples[:,-1:] == 0, negative, samples[:,-1:]).T
 
-# Trivial model
-def train_trivial(_data, _labels):
-    return np.array([[.1], [.2], [.3], [.4]]), np.array([[.5]])
-
 # Compare
 def format_model(normal, offset):
     def format_float(f): return "{0:1.3f}".format(f)
@@ -43,7 +39,7 @@ def evaluate_cross_fold(train, data, labels, k):
     return score_sum/k
 
 print("ECross\tStrategy")
-for train in [train_trivial, lib.train_random, lib.train_perceptron, lib.train_support_vector_machine]:
+for train in [lib.train_random, lib.train_perceptron, lib.train_support_vector_machine]:
     # normal, offset = model(data_training, labels_training)
     # error_training = lib.score_accuracy(data_training, labels_training, normal, offset)
     # error_test = lib.score_accuracy(data_test, labels_test, normal, offset)
