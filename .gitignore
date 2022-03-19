@@ -1,1 +1,8 @@
 __pycache__/
+.vscode/
+mnist/
+*.txt
+*.tsv
+code_for_*.py
+auto.py
+hw*.py
