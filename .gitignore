@@ -6,3 +6,5 @@ mnist/
 code_for_*.py
 auto.py
 hw*.py
+modules_*.py
+expected_*.py
