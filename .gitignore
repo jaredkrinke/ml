@@ -3,8 +3,10 @@ __pycache__/
 mnist/
 *.txt
 *.tsv
+*.csv
 code_for_*.py
 auto.py
 hw*.py
 modules_*.py
 expected_*.py
+.DS_Store
