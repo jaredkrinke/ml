@@ -1,6 +1,7 @@
 __pycache__/
 .vscode/
 mnist/
+provided/
 *.txt
 *.tsv
 *.csv
