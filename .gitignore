@@ -11,3 +11,5 @@ hw*.py
 modules_*.py
 expected_*.py
 .DS_Store
+tests.py
+util.py
