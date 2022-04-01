@@ -84,11 +84,22 @@ class RNN(SM):
     def output_fn(self, s):
         return self.f2(np.dot(self.Wo, s) + self.Wo_0)
 
+# Accumulator sign
 Wsx = np.array([[1]])
 Wss = np.identity(1)
 Wo = np.identity(1)
 Wss_0 = np.zeros([1, 1])
 Wo_0 = np.zeros([1, 1])
-f1 = lambda x: x.copy()
+f1 = lambda x: x
 f2 = lambda x: np.sign(x)
 acc_sign = RNN(Wsx, Wss, Wo, Wss_0, Wo_0, f1, f2)
+
+# Autoregressive
+Wsx = np.array([[1,0,0]]).T
+Wss = np.array([[0,0,0],[1,0,0],[0,1,0]])
+Wo = np.array([[1,-2,3]])
+Wss_0 = np.zeros([3,1])
+Wo_0 = 0
+f1 = lambda x: x
+f2 = lambda x: x
+auto = RNN(Wsx, Wss, Wo, Wss_0, Wo_0, f1, f2)
