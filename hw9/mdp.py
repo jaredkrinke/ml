@@ -78,9 +78,10 @@ def value_iteration(mdp: MDP, q, eps = 0.01, interactive_fn = None,
 
 # Compute the q value of action a in state s with horizon h, using
 # expectimax
-def q_em(mdp, s, a, h):
+def q_em(mdp: MDP, s, a, h):
     # Your code here
-    pass
+    if h <= 0: return 0
+    return mdp.reward_fn(s, a) + mdp.discount_factor * sum([mdp.transition_model(s, a).prob(s_prime) * max([q_em(mdp, s_prime, a_prime, h - 1) for a_prime in mdp.actions]) for s_prime in mdp.states])
 
 # Given a state, return the value of that state, with respect to the
 # current definition of the q function
