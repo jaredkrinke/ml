@@ -13,3 +13,4 @@ expected_*.py
 .DS_Store
 tests.py
 util.py
+dist.py
