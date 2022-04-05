@@ -258,11 +258,24 @@ class NNQ:
         self.states = states
         self.state2vec = state2vec
         self.epochs = epochs
-        self.models = None              # Your code here
-        if self.models is None: raise NotImplementedError('NNQ.models')
+        # TODO: Not really clear on how state2vec is supposed to work...
+        state_dim = state2vec(states[0]).shape[1]
+        self.models = [make_nn(state_dim, num_layers, num_units) for _ in range(len(actions))]
     def get(self, s, a):
         # Your code here
-        raise NotImplementedError('NNQ.get')
-    def update(self, data, lr):
+        model = self.models[self.actions.index(a)]
+        state_vector = self.state2vec(s)
+        return model.predict(state_vector)
+    def update(self, data, _lr):
         # Your code here
-        raise NotImplementedError('NNQ.update')
+        io = [([], []) for _ in range(len(self.models))]
+        for state, action, target in data:
+            index = self.actions.index(action)
+            io[index][0].append(self.state2vec(state))
+            io[index][1].append(target)
+        for index, (input, output) in enumerate(io):
+            count = len(input)
+            if count > 0:
+                x = np.array(input).reshape([count, input[0].shape[1]])
+                y = np.array(output).reshape([count, 1])
+                self.models[index].fit(x, y, epochs=1, verbose=False)
