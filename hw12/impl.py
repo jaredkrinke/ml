@@ -36,3 +36,18 @@ def update_V(data, us_from_v, x, k, lam):
                 Y.append(r - b_u[a])
             v[i], b_v[i] = ridge_analytic(np.array(X), np.array(Y), lam)
     return x
+
+def sgd_step(data, x, lam, step):
+    (a, i, r) = data
+    (u, b_u, v, b_v) = x
+    (lam_u, lam_v) = lam
+    u_a = u[a]
+    v_i = v[i]
+    b_u_a = b_u[a]
+    b_v_i = b_v[i]
+    error = (r - u_a.T @ v_i - b_u_a - b_v_i)
+    u[a] = u_a + step * (v_i * error - lam_u[a] * u_a)
+    v[i] = v_i + step * (u_a * error - lam_v[i] * v_i)
+    b_u[a] = b_u_a + step * error
+    b_v[i] = b_v_i + step * error
+    return x
