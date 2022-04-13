@@ -71,3 +71,5 @@ for genre in genres:
             if a == b: continue
             similarities.append(get_similarity(a, b))
     comedy_similarities[genre] = np.mean(similarities)
+
+print(sorted(comedy_similarities.items(), key=lambda row: row[1]))
