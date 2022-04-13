@@ -14,3 +14,6 @@ expected_*.py
 tests.py
 util.py
 dist.py
+*model
+sm.py
+models/
