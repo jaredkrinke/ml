@@ -16,4 +16,5 @@ util.py
 dist.py
 *model
 sm.py
+non_parametric.py
 models/
